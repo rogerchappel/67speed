@@ -1,0 +1,4 @@
+import type { Metadata } from 'next';
+import { resultFromId } from '@/lib/game';
+export async function generateMetadata({ params }: { params: Promise<{ resultId: string }> }): Promise<Metadata> { const { resultId } = await params; const result = resultFromId(resultId); return { title: result.title, description: result.summary, robots: { index: false, follow: true }, openGraph: { title: result.title, description: result.summary, images: [`/api/og/${result.id}.png`] } }; }
+export default async function ResultPage({ params }: { params: Promise<{ resultId: string }> }) { const { resultId } = await params; const result = resultFromId(resultId); return <main><header className="page-header"><p className="eyebrow">Result</p><h1>{result.title}</h1><p className="big">{result.archetype}</p><p className="muted">{result.summary}</p></header><section className="copy-card">{result.shareCopy.map((line) => <p key={line}>{line}</p>)}</section></main>; }

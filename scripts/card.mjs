@@ -1,0 +1,15 @@
+import fs from 'node:fs';
+import path from 'node:path';
+import { renderCardSvg } from '../src/lib/card.ts';
+import { createResult } from '../src/lib/game.ts';
+const args = process.argv.slice(2);
+const get = (flag, fallback) => { const i = args.indexOf(flag); return i >= 0 ? args[i + 1] : fallback; };
+const score = Number(get('--score', '82'));
+const archetype = get('--archetype', 'Certified Hallway Menace');
+const out = get('--out', 'dist/cards/example.svg');
+const result = createResult('card-seed', Array.from({ length: 6 }, (_, index) => ({ promptId: `p${index}`, reactionMs: 260 + index * 60, choice: index % 4 })));
+result.score = score; result.archetype = archetype; result.title = `67 Speed: ${score}/100`;
+const svg = renderCardSvg(result);
+fs.mkdirSync(path.dirname(out), { recursive: true });
+fs.writeFileSync(out, svg, 'utf8');
+console.log(out);

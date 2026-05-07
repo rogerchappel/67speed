@@ -1,0 +1,1 @@
+export default function AboutPage() { return <main><header className="page-header"><p className="eyebrow">About</p><h1>About 67speed</h1></header><section className="card"><p>67speed is a tiny consumer web toy built for fast meme participation. No accounts. No celebrity likeness. No ripped audio. Just deterministic nonsense.</p></section></main>; }

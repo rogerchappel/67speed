@@ -1,0 +1,88 @@
+# 67speed
+
+A zero-login nonsense speed test for the `6-7` meme.
+
+67speed is built like a viral toy, not a bloated app: tiny pages, deterministic results, shareable cards, and no dependency on copyrighted audio, celebrity likeness, or account creation.
+
+## What it does
+
+- Runs a playful 6-prompt `67 Speed` test in the browser
+- Produces deterministic score + archetype output from a seed
+- Serves share/result pages at short URLs
+- Includes parent and teacher explainers without pretending the meme has one official meaning
+- Keeps result pages `noindex` by default and avoids low-value SEO spam patterns
+
+## Routes
+
+- `/` — landing page
+- `/start/` — main test
+- `/daily/` — deterministic daily challenge
+- `/r/<result-id>/` — result page
+- `/what-is-6-7/` — concise explainer
+- `/parents/` — parent explainer
+- `/teachers/` — teacher explainer
+- `/about/` and `/privacy/`
+- `/api/og/<result-id>.png`
+- `/api/result-card/<result-id>.png`
+
+## Quick start
+
+```bash
+npm install
+npm run dev
+```
+
+Open `http://localhost:3000`.
+
+## Practical examples
+
+Generate a deterministic fixture payload:
+
+```bash
+npm run generate -- --date 2026-05-07 --seed 67
+```
+
+Build a share card locally:
+
+```bash
+npm run card -- --score 82 --archetype "Certified Hallway Menace" --out dist/cards/example.svg
+```
+
+Run the local verification stack:
+
+```bash
+npm test
+npm run check
+npm run build
+npm run smoke
+bash scripts/validate.sh
+```
+
+## Safety and privacy
+
+- No login required
+- No user-upload storage in V1
+- No copyrighted music/video clips
+- No NBA/player/creator likeness use
+- No fake global counters or fake live leaderboards
+- Result pages are designed for sharing, not mass indexing
+
+## Tech shape
+
+- Next.js App Router
+- Static-first content model
+- Deterministic scoring in `src/lib/game.ts`
+- SVG-based share card generation for cache-friendly output
+- Fixture-backed node tests using the built-in test runner
+
+## Contributing
+
+Small, atomic changes preferred. Run `bash scripts/validate.sh` before shipping.
+
+## Security
+
+If you find a vulnerability, follow [SECURITY.md](SECURITY.md).
+
+## License
+
+MIT

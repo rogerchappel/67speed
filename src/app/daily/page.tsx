@@ -1,0 +1,3 @@
+import Link from 'next/link';
+import { dailySeed, pickPrompts } from '@/lib/game';
+export default function DailyPage() { const seed = dailySeed(); const prompts = pickPrompts(seed, 3); return <main><header className="page-header"><p className="eyebrow">Daily challenge</p><h1>Today’s nonsense seed: {seed}</h1><p className="muted">The daily rotates by date without a backend. Same seed for everyone, new chaos tomorrow.</p></header><section className="grid">{prompts.map((prompt) => <article className="card" key={prompt.id}><h2>{prompt.cue}</h2><p>{prompt.label}</p></article>)}</section><div className="actions"><Link className="button" href={`/start/?seed=${seed}`}>Play today’s run</Link></div></main>; }

@@ -1,0 +1,35 @@
+{
+  "name": "67speed",
+  "version": "0.1.0",
+  "private": false,
+  "description": "A zero-login nonsense speed test for the 6-7 meme, built for static-first viral traffic.",
+  "type": "module",
+  "packageManager": "npm@10.9.4",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "test": "node --import tsx --test tests/**/*.test.ts",
+    "check": "tsc --noEmit",
+    "smoke": "npm run build && node scripts/smoke.mjs",
+    "card": "node --import tsx scripts/card.mjs",
+    "generate": "node --import tsx scripts/generate.mjs"
+  },
+  "dependencies": {
+    "next": "15.3.3",
+    "react": "19.1.0",
+    "react-dom": "19.1.0"
+  },
+  "devDependencies": {
+    "@types/node": "22.15.17",
+    "@types/react": "19.1.4",
+    "tsx": "4.19.3",
+    "typescript": "5.8.3"
+  },
+  "keywords": ["67speed", "meme", "nextjs", "static-site", "viral-toy"],
+  "license": "MIT",
+  "author": "Roger Chappel"
+}
