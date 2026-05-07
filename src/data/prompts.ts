@@ -15,7 +15,7 @@ export const PROMPTS: Prompt[] = [
   { id: 'warmup', cue: 'The beat is imaginary. The hands start seesawing.', label: 'Tap exactly on the fake drop.', good: 'Beat psychic', bad: 'Lost the rhythm', weight: 10 },
   { id: 'canteen', cue: 'Lunch is mystery texture. Everyone looks at you.', label: 'React with proper nonsense confidence.', good: 'Cafeteria oracle', bad: 'Visible concern', weight: 9 },
   { id: 'daily', cue: 'Today only: respect the six, fear the seven.', label: 'Freeze on six. Fire on seven.', good: 'Daily demon', bad: 'Calendar fraud', weight: 12 }
-};
+];
 
 export const ARCHETYPES = [
   'Dangerously 6-7',

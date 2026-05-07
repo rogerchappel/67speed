@@ -19,7 +19,7 @@
     "generate": "node --import tsx scripts/generate.mjs"
   },
   "dependencies": {
-    "next": "15.3.3",
+    "next": "16.2.5",
     "react": "19.1.0",
     "react-dom": "19.1.0"
   },
