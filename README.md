@@ -86,3 +86,14 @@ If you find a vulnerability, follow [SECURITY.md](SECURITY.md).
 ## License
 
 MIT
+
+## Development
+
+Run the same checks locally before opening a PR:
+
+- `npm run check` - tsc --noEmit
+- `npm run build` - next build
+- `npm test` - node --import tsx --test tests/**/*.test.ts
+- `npm run smoke` - npm run build && node scripts/smoke.mjs
+- `npm run package:smoke` - npm run build && npm pack --dry-run
+- `npm run release:check` - npm run check && npm run smoke && npm run package:smoke
