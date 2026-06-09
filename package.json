@@ -31,7 +31,13 @@
     "tsx": "4.19.3",
     "typescript": "5.8.3"
   },
-  "keywords": ["67speed", "meme", "nextjs", "static-site", "viral-toy"],
+  "keywords": [
+    "67speed",
+    "meme",
+    "nextjs",
+    "static-site",
+    "viral-toy"
+  ],
   "repository": {
     "type": "git",
     "url": "git+https://github.com/rogerchappel/67speed.git"
@@ -49,7 +55,8 @@
     "SECURITY.md",
     "next.config.ts",
     "next-env.d.ts",
-    "tsconfig.json"
+    "tsconfig.json",
+    "CONTRIBUTING.md"
   ],
   "license": "MIT",
   "author": "Roger Chappel"
