@@ -45,6 +45,8 @@
     "scripts",
     "src",
     "tests",
+    "LICENSE",
+    "SECURITY.md",
     "next.config.ts",
     "next-env.d.ts",
     "tsconfig.json"
