@@ -53,6 +53,7 @@
     "tests",
     "LICENSE",
     "SECURITY.md",
+    "CHANGELOG.md",
     "next.config.ts",
     "next-env.d.ts",
     "tsconfig.json",
