@@ -16,7 +16,7 @@
     "check": "tsc --noEmit",
     "smoke": "npm run build && node scripts/smoke.mjs",
     "package:smoke": "npm run build && npm pack --dry-run",
-    "release:check": "npm run check && npm run smoke && npm run package:smoke",
+    "release:check": "npm test && npm run check && npm run smoke && npm run package:smoke",
     "card": "node --import tsx scripts/card.mjs",
     "generate": "node --import tsx scripts/generate.mjs"
   },

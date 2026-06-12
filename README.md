@@ -96,4 +96,4 @@ Run the same checks locally before opening a PR:
 - `npm test` - node --import tsx --test tests/**/*.test.ts
 - `npm run smoke` - npm run build && node scripts/smoke.mjs
 - `npm run package:smoke` - npm run build && npm pack --dry-run
-- `npm run release:check` - npm run check && npm run smoke && npm run package:smoke
+- `npm run release:check` - npm test && npm run check && npm run smoke && npm run package:smoke
