@@ -97,3 +97,12 @@ Run the same checks locally before opening a PR:
 - `npm run smoke` - npm run build && node scripts/smoke.mjs
 - `npm run package:smoke` - npm run build && npm pack --dry-run
 - `npm run release:check` - npm test && npm run check && npm run smoke && npm run package:smoke
+
+## Release Verification
+
+Before publishing or tagging a release, run the same verification path used by CI:
+
+- `npm run release:check`
+- `npm run package:smoke`
+
+See `docs/release-readiness.md` for the package surface, CLI bins, and reviewer checklist.
