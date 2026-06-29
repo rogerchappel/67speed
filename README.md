@@ -25,7 +25,7 @@ A zero-login nonsense speed test for the `6-7` meme.
 - `/api/og/<result-id>.png`
 - `/api/result-card/<result-id>.png`
 
-## Quick start
+## Quickstart
 
 ```bash
 npm install
