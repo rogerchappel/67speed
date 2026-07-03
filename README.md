@@ -58,6 +58,19 @@ npm run smoke
 bash scripts/validate.sh
 ```
 
+
+## Verification
+
+Run the local quality gates before opening a pull request:
+
+```sh
+npm run lint
+npm test
+npm run smoke
+```
+
+`npm run lint` is an alias for the repository static check so contributors can use the common npm workflow without guessing the project-specific command.
+
 ## Safety and privacy
 
 - No login required
