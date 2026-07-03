@@ -9,16 +9,17 @@
     "node": ">=20"
   },
   "scripts": {
-    "dev": "next dev",
     "build": "next build",
-    "start": "next start",
-    "test": "node --import tsx --test tests/**/*.test.ts",
     "check": "tsc --noEmit",
+    "lint": "tsc --noEmit",
+    "test": "node --import tsx --test tests/**/*.test.ts",
     "smoke": "npm run build && node scripts/smoke.mjs",
     "package:smoke": "npm run build && npm pack --dry-run",
     "release:check": "npm test && npm run check && npm run smoke && npm run package:smoke",
     "card": "node --import tsx scripts/card.mjs",
-    "generate": "node --import tsx scripts/generate.mjs"
+    "dev": "next dev",
+    "generate": "node --import tsx scripts/generate.mjs",
+    "start": "next start"
   },
   "dependencies": {
     "next": "16.2.5",
