@@ -108,7 +108,7 @@ Run the same checks locally before opening a PR:
 - `npm run build` - next build
 - `npm test` - node --import tsx --test tests/**/*.test.ts
 - `npm run smoke` - npm run build && node scripts/smoke.mjs
-- `npm run package:smoke` - npm run build && npm pack --dry-run
+- `npm run package:smoke` - npm run build and verify the npm pack manifest includes the app, smoke scripts, and support docs
 - `npm run release:check` - npm test && npm run check && npm run smoke && npm run package:smoke
 
 ## Release Verification
