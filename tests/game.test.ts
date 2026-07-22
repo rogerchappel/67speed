@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { archetypeForScore, createResult, dailySeed, hashSeed, pickPrompts, resultIdFromSeed, scoreAnswers } from '../src/lib/game';
+import { archetypeForScore, createResult, dailySeed, hashSeed, pickPrompts, resultFromId, resultIdFromSeed, scoreAnswers } from '../src/lib/game';
 import { renderCardSvg } from '../src/lib/card';
 
 test('daily seed is deterministic by date string', () => {
@@ -24,6 +24,16 @@ test('archetypes map across bands', () => {
 test('result ids are deterministic', () => {
   assert.equal(resultIdFromSeed('abc', 82, 'Certified Hallway Menace'), resultIdFromSeed('abc', 82, 'Certified Hallway Menace'));
   assert.notEqual(hashSeed('abc'), hashSeed('abd'));
+});
+
+test('results preserve their identity and display values when reopened', () => {
+  const answers = Array.from({ length: 6 }, (_, index) => ({ promptId: `p${index}`, reactionMs: 350 + index * 30, choice: (index % 4) as 0 | 1 | 2 | 3 }));
+  const created = createResult('seed-67', answers);
+  const reopened = resultFromId(created.id);
+
+  assert.equal(reopened.id, created.id);
+  assert.equal(reopened.score, created.score);
+  assert.equal(reopened.archetype, created.archetype);
 });
 
 test('card renderer returns branded svg', () => {
