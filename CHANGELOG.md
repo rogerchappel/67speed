@@ -1,5 +1,12 @@
 # Changelog
 
+## Unreleased
+
+- Updated the PostCSS override beyond the affected ranges in
+  [GHSA-6g55-p6wh-862q](https://github.com/advisories/GHSA-6g55-p6wh-862q)
+  and [GHSA-r28c-9q8g-f849](https://github.com/advisories/GHSA-r28c-9q8g-f849),
+  with a high-severity dependency audit added to CI.
+
 ## 0.1.0
 
 - Initial static-first 67speed experience with deterministic scoring and share/result routes.

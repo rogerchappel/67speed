@@ -15,6 +15,7 @@
     "test": "node --import tsx --test tests/**/*.test.ts",
     "smoke": "npm run build && node scripts/smoke.mjs",
     "package:smoke": "npm run build && node scripts/package-smoke.mjs",
+    "audit:high": "npm audit --audit-level=high",
     "release:check": "npm test && npm run check && npm run smoke && npm run package:smoke",
     "card": "node --import tsx scripts/card.mjs",
     "dev": "next dev",
@@ -27,7 +28,7 @@
     "react-dom": "19.1.0"
   },
   "overrides": {
-    "postcss": "8.5.10",
+    "postcss": "8.5.23",
     "sharp": "0.35.0"
   },
   "devDependencies": {
