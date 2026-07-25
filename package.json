@@ -15,6 +15,7 @@
     "test": "node --import tsx --test tests/**/*.test.ts",
     "smoke": "npm run build && node scripts/smoke.mjs",
     "package:smoke": "npm run build && node scripts/package-smoke.mjs",
+    "audit:high": "npm audit --audit-level=high",
     "release:check": "npm test && npm run check && npm run smoke && npm run package:smoke",
     "card": "node --import tsx scripts/card.mjs",
     "dev": "next dev",
