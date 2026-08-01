@@ -34,6 +34,26 @@ test('results preserve their identity and display values when reopened', () => {
   assert.equal(reopened.id, created.id);
   assert.equal(reopened.score, created.score);
   assert.equal(reopened.archetype, created.archetype);
+  assert.equal(reopened.seed, created.seed);
+  assert.deepEqual(reopened.prompts.map(({ id }) => id), created.prompts.map(({ id }) => id));
+  assert.equal(reopened.challengeUrl, `/start/?seed=${encodeURIComponent(created.seed)}&challenge=${created.id}`);
+});
+
+test('result ids round-trip URL-safe Unicode seeds', () => {
+  const seed = 'daily challenge 🦘/67?';
+  const id = resultIdFromSeed(seed, 82, 'Certified Hallway Menace');
+
+  assert.equal(resultFromId(id).seed, seed);
+  assert.doesNotMatch(id, /[/?#%]/);
+});
+
+test('legacy and malformed result ids retain deterministic fallbacks', () => {
+  assert.equal(resultFromId('certified-hallway-menace-83-7tcx3f').seed, '7tcx3f');
+  assert.equal(resultFromId('certified-hallway-menace-83~v2~%%%').seed, '67seed');
+  assert.deepEqual(
+    resultFromId('certified-hallway-menace-83~v2~%%%').prompts,
+    resultFromId('certified-hallway-menace-83~v2~%%%').prompts,
+  );
 });
 
 test('card renderer returns branded svg', () => {
