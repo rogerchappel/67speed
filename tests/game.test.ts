@@ -1,7 +1,16 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
+import { execFileSync } from 'node:child_process';
+import { readFileSync, rmSync } from 'node:fs';
+import { tmpdir } from 'node:os';
+import { join } from 'node:path';
+import { mkdtempSync } from 'node:fs';
 import { archetypeForScore, createResult, dailySeed, hashSeed, pickPrompts, resultFromId, resultIdFromSeed, scoreAnswers } from '../src/lib/game';
-import { renderCardSvg } from '../src/lib/card';
+import { renderCardPng, renderCardSvg } from '../src/lib/card';
+import { GET as getOgCard } from '../src/app/api/og/[resultId]/route';
+import { GET as getResultCard } from '../src/app/api/result-card/[resultId]/route';
+
+const pngSignature = Buffer.from([0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a]);
 
 test('daily seed is deterministic by date string', () => {
   assert.equal(dailySeed(new Date('2026-05-07T00:00:00.000Z')), '2026-05-07');
@@ -61,4 +70,38 @@ test('card renderer returns branded svg', () => {
   const svg = renderCardSvg(result);
   assert.match(svg, /67speed\.com/);
   assert.match(svg, /svg/);
+});
+
+test('card renderer returns deterministic PNG bytes', async () => {
+  const result = createResult('seed', Array.from({ length: 6 }, (_, index) => ({ promptId: `p${index}`, reactionMs: 350 + index * 30, choice: (index % 4) as 0 | 1 | 2 | 3 })));
+  const first = await renderCardPng(result);
+  const second = await renderCardPng(result);
+
+  assert.deepEqual(first.subarray(0, pngSignature.length), pngSignature);
+  assert.deepEqual(first, second);
+});
+
+test('advertised card API routes return PNG content and MIME type', async () => {
+  const result = createResult('api-seed', Array.from({ length: 6 }, (_, index) => ({ promptId: `p${index}`, reactionMs: 350 + index * 30, choice: (index % 4) as 0 | 1 | 2 | 3 })));
+  const context = { params: Promise.resolve({ resultId: `${result.id}.png` }) };
+
+  for (const handler of [getOgCard, getResultCard]) {
+    const response = await handler(new Request(`https://67speed.com/card/${result.id}.png`), context);
+    const body = Buffer.from(await response.arrayBuffer());
+
+    assert.equal(response.headers.get('content-type'), 'image/png');
+    assert.deepEqual(body.subarray(0, pngSignature.length), pngSignature);
+  }
+});
+
+test('card CLI writes PNG bytes to its documented extension', () => {
+  const directory = mkdtempSync(join(tmpdir(), '67speed-card-'));
+  const output = join(directory, 'example.png');
+
+  try {
+    execFileSync(process.execPath, ['--import', 'tsx', 'scripts/card.mjs', '--score', '82', '--archetype', 'Certified Hallway Menace', '--out', output]);
+    assert.deepEqual(readFileSync(output).subarray(0, pngSignature.length), pngSignature);
+  } finally {
+    rmSync(directory, { recursive: true, force: true });
+  }
 });
