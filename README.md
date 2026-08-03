@@ -51,7 +51,7 @@ npm run generate -- --date 2026-05-07 --seed 67
 Build a share card locally:
 
 ```bash
-npm run card -- --score 82 --archetype "Certified Hallway Menace" --out dist/cards/example.svg
+npm run card -- --score 82 --archetype "Certified Hallway Menace" --out dist/cards/example.png
 ```
 
 Run the local verification stack:
@@ -91,7 +91,7 @@ npm run smoke
 - Next.js App Router
 - Static-first content model
 - Deterministic scoring in `src/lib/game.ts`
-- SVG-based share card generation for cache-friendly output
+- PNG share card generation for consistent API, Open Graph, and CLI output
 - Fixture-backed node tests using the built-in test runner
 
 ## Contributing
