@@ -1,16 +1,29 @@
 'use client';
 import { useLayoutEffect, useMemo, useState } from 'react';
 import { createResult, dailySeed, pickPrompts, type AnswerValue } from '@/lib/game';
+import { createPromptActivationGuard } from '@/lib/prompt-activation';
 import { createReactionTimer } from '@/lib/reaction-timer';
 const CHOICES = ['Too early','6 energy','7 energy','Pure nonsense'] as const;
 export function TestClient({ seed = dailySeed() }: { seed?: string }) {
   const prompts = useMemo(() => pickPrompts(seed, 6), [seed]);
   const [step, setStep] = useState(0);
+  const [activationGuard] = useState(createPromptActivationGuard);
   const [reactionTimer] = useState(createReactionTimer);
   const [answers, setAnswers] = useState<{ promptId: string; reactionMs: number; choice: AnswerValue }[]>([]);
   const result = answers.length === prompts.length ? createResult(seed, answers) : null;
-  useLayoutEffect(() => reactionTimer.startPrompt(), [reactionTimer, step]);
-  const handleChoice = (choice: AnswerValue) => { const prompt = prompts[step]; const reactionMs = reactionTimer.measure(); setAnswers((current) => [...current, { promptId: prompt.id, reactionMs, choice }]); setStep((current) => current + 1); };
+  useLayoutEffect(() => {
+    const prompt = prompts[step];
+    if (!prompt) return;
+    activationGuard.display(prompt.id);
+    reactionTimer.startPrompt();
+  }, [activationGuard, prompts, reactionTimer, step]);
+  const handleChoice = (choice: AnswerValue) => {
+    const prompt = prompts[step];
+    if (!prompt || !activationGuard.accept(prompt.id)) return;
+    const reactionMs = reactionTimer.measure();
+    setAnswers((current) => [...current, { promptId: prompt.id, reactionMs, choice }]);
+    setStep((current) => current + 1);
+  };
   if (result) return <section className="panel result" aria-live="polite"><p className="eyebrow">Result locked</p><h2>{result.title}</h2><p className="big">{result.archetype}</p><p>{result.summary}</p><ul>{result.shareCopy.map((line) => <li key={line}>{line}</li>)}</ul><div className="actions"><a className="button" href={`/r/${result.id}/`}>Open result page</a><a className="button ghost" href={`/start/?seed=${encodeURIComponent(dailySeed())}`}>Run it again</a></div></section>;
   const prompt = prompts[step];
   return <section className="panel" aria-live="polite"><p className="eyebrow">6.7-second mode</p><h2>{prompt.cue}</h2><p>{prompt.label}</p><p className="counter">Prompt {step + 1} / {prompts.length}</p><div className="choice-grid">{CHOICES.map((choice, index) => <button key={choice} className="choice" onClick={() => handleChoice(index as AnswerValue)}>{choice}</button>)}</div><p className="hint">Keyboard-friendly, no login, no uploads, no weird tracking.</p></section>;
