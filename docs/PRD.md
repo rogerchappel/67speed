@@ -213,7 +213,9 @@ Routing rules:
 
 ```bash
 # Generate deterministic prompt/result fixtures
-npm run generate -- --date 2026-05-07 --seed 67
+npm run generate -- --date 2026-05-07
+# Or use an arbitrary seed instead of a date
+npm run generate -- --seed 67
 
 # Build the static site
 npm run build
@@ -226,6 +228,10 @@ npm run check
 # Generate one result card locally
 npm run card -- --score 82 --archetype hallway-menace --out dist/cards/example.png
 ```
+
+`generate` accepts either `--date YYYY-MM-DD` or `--seed VALUE`, never both.
+When neither is provided it uses today's UTC date. The card score must be a
+whole number from 7 through 100.
 
 Optional API shape for an edge function:
 
