@@ -45,8 +45,13 @@ Open `http://localhost:3000`.
 Generate a deterministic fixture payload:
 
 ```bash
-npm run generate -- --date 2026-05-07 --seed 67
+npm run generate -- --date 2026-05-07
+# Or generate a fixture from an arbitrary deterministic seed:
+npm run generate -- --seed 67
 ```
+
+`--date` and `--seed` are mutually exclusive. With neither option, the
+generator uses today's UTC date. Dates use `YYYY-MM-DD` format.
 
 Build a share card locally:
 
