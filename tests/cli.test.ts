@@ -19,14 +19,28 @@ test('generate CLI accepts documented date and seed modes', () => {
   assert.equal(bySeed.seed, '67');
 });
 
+for (const date of ['2024-02-29', '2000-02-29', '2026-01-01', '2026-12-31']) {
+  test(`generate CLI accepts calendar date boundary: ${date}`, () => {
+    const result = runCli('scripts/generate.mjs', ['--date', date]);
+    assert.equal(result.status, 0, result.stderr);
+    assert.equal(JSON.parse(result.stdout).seed, date);
+  });
+}
+
 for (const args of [
   ['--unknown', 'value'],
   ['--date'],
+  ['--date', '2026-99-99'],
+  ['--date', '2026-02-30'],
+  ['--date', '2023-02-29'],
+  ['--date', '1900-02-29'],
+  ['--date', '2026-04-31'],
+  ['--date', '2026-1-01'],
   ['--date', '2026-05-07', '--seed', '67'],
 ]) {
   test(`generate CLI rejects invalid arguments: ${args.join(' ')}`, () => {
     const result = runCli('scripts/generate.mjs', args);
-    assert.notEqual(result.status, 0);
+    assert.equal(result.status, 2);
     assert.match(result.stderr, /Usage: npm run generate/);
   });
 }
