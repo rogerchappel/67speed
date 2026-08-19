@@ -65,6 +65,15 @@ test('legacy and malformed result ids retain deterministic fallbacks', () => {
   );
 });
 
+test('versioned result ids with an omitted seed payload use the stable fallback', () => {
+  const result = resultFromId('too-normal-20~v2~');
+  const fallback = resultFromId('too-normal-20~v2~%%%');
+
+  assert.equal(result.seed, '67seed');
+  assert.match(result.challengeUrl, /[?&]seed=67seed(?:&|$)/);
+  assert.deepEqual(result.prompts.map(({ id }) => id), fallback.prompts.map(({ id }) => id));
+});
+
 test('card renderer returns branded svg', () => {
   const result = createResult('seed', Array.from({ length: 6 }, (_, index) => ({ promptId: `p${index}`, reactionMs: 350 + index * 30, choice: (index % 4) as 0 | 1 | 2 | 3 })));
   const svg = renderCardSvg(result);
