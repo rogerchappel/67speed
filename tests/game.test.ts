@@ -48,6 +48,24 @@ test('results preserve their identity and display values when reopened', () => {
   assert.equal(reopened.challengeUrl, `/start/?seed=${encodeURIComponent(created.seed)}&challenge=${created.id}`);
 });
 
+test('every accepted seed round-trips through its generated result id', () => {
+  const answers = Array.from({ length: 6 }, (_, index) => ({ promptId: `p${index}`, reactionMs: 350 + index * 30, choice: (index % 4) as 0 | 1 | 2 | 3 }));
+
+  for (const seed of ['seed-67', ' daily challenge ', '🦘']) {
+    const created = createResult(seed, answers);
+    const reopened = resultFromId(created.id);
+    assert.equal(reopened.seed, seed);
+    assert.deepEqual(reopened.prompts.map(({ id }) => id), created.prompts.map(({ id }) => id));
+  }
+});
+
+test('result creation rejects empty and whitespace-only seeds', () => {
+  for (const seed of ['', '   ', '\t\n']) {
+    assert.throws(() => createResult(seed, []), /Seed must contain at least one non-whitespace character/);
+    assert.throws(() => resultIdFromSeed(seed, 67, 'Too Normal'), /Seed must contain at least one non-whitespace character/);
+  }
+});
+
 test('result ids round-trip URL-safe Unicode seeds', () => {
   const seed = 'daily challenge 🦘/67?';
   const id = resultIdFromSeed(seed, 82, 'Certified Hallway Menace');
@@ -72,6 +90,11 @@ test('versioned result ids with an omitted seed payload use the stable fallback'
   assert.equal(result.seed, '67seed');
   assert.match(result.challengeUrl, /[?&]seed=67seed(?:&|$)/);
   assert.deepEqual(result.prompts.map(({ id }) => id), fallback.prompts.map(({ id }) => id));
+});
+
+test('versioned result ids with empty or whitespace seeds use the stable fallback', () => {
+  assert.equal(resultFromId('too-normal-20~v2~IA').seed, '67seed');
+  assert.equal(resultFromId('too-normal-20~v2~CQ').seed, '67seed');
 });
 
 test('card renderer returns branded svg', () => {
