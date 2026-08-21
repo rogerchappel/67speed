@@ -7,6 +7,7 @@ if (args.has('--date') && args.has('--seed')) fail('--date and --seed are mutual
 if (args.has('--date') && !isCanonicalDate(args.get('--date'))) fail('--date must be a real date in YYYY-MM-DD', usage);
 
 const seed = args.get('--date') ?? args.get('--seed') ?? dailySeed();
+if (!String(seed).trim()) fail('--seed must contain at least one non-whitespace character', usage);
 const result = createResult(String(seed), Array.from({ length: 6 }, (_, index) => ({ promptId: `p${index}`, reactionMs: 320 + index * 70, choice: index % 4 })));
 console.log(JSON.stringify(result, null, 2));
 

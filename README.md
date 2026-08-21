@@ -51,7 +51,8 @@ npm run generate -- --seed 67
 ```
 
 `--date` accepts only real UTC calendar dates in the exact `YYYY-MM-DD` form
-(including leap-year rules). `--date` and `--seed` are mutually exclusive. With neither option, the
+(including leap-year rules). `--seed` must contain at least one non-whitespace
+character. `--date` and `--seed` are mutually exclusive. With neither option, the
 generator uses today's UTC date. Dates use `YYYY-MM-DD` format.
 
 Build a share card locally:

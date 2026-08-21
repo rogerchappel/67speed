@@ -19,6 +19,15 @@ test('generate CLI accepts documented date and seed modes', () => {
   assert.equal(bySeed.seed, '67');
 });
 
+for (const seed of ['', '   ']) {
+  test(`generate CLI rejects seed ${JSON.stringify(seed)} without output`, () => {
+    const result = runCli('scripts/generate.mjs', ['--seed', seed]);
+    assert.equal(result.status, 2);
+    assert.equal(result.stdout, '');
+    assert.match(result.stderr, /--seed must contain at least one non-whitespace character/);
+  });
+}
+
 for (const date of ['2024-02-29', '2000-02-29', '2026-01-01', '2026-12-31']) {
   test(`generate CLI accepts calendar date boundary: ${date}`, () => {
     const result = runCli('scripts/generate.mjs', ['--date', date]);
