@@ -2,6 +2,9 @@
 
 ## Unreleased
 
+- Updated Next.js to 16.3.3, React and React DOM to 19.2.8, and Sharp to
+  0.35.4; Sharp's bundled declarations now work without a TypeScript
+  suppression.
 - Preserve the original challenge seed in new public result IDs so shared
   results reproduce their prompt sequence, while retaining deterministic
   handling for legacy and malformed IDs.
