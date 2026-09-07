@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- Fall back to the daily seed for invalid `/start/` seed query values so every
+  browser run can complete normally.
 - Refreshed Next.js to 16.3.4, `@types/react` to 19.2.18, and `tsx` to
   4.23.13 without introducing unrelated major dependency updates.
 - Updated Next.js to 16.3.3, React and React DOM to 19.2.8, and Sharp to
