@@ -15,7 +15,8 @@ A zero-login nonsense speed test for the `6-7` meme.
 ## Routes
 
 - `/` — landing page
-- `/start/` — main test
+- `/start/` — main test; a missing, repeated, empty, or whitespace-only
+  `seed` query value falls back to today's deterministic UTC seed
 - `/daily/` — deterministic daily challenge
 - `/r/<result-id>/` — result page
 - `/what-is-6-7/` — concise explainer
