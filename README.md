@@ -62,28 +62,21 @@ Build a share card locally:
 npm run card -- --score 82 --archetype "Certified Hallway Menace" --out dist/cards/example.png
 ```
 
-Run the local verification stack:
-
-```bash
-npm test
-npm run check
-npm run build
-npm run smoke
-bash scripts/validate.sh
-```
+For the full set of pre-PR gates, see [Verification](#verification).
 
 
 ## Verification
 
-Run the local quality gates before opening a pull request:
+Run these local gates before opening a pull request; together they cover
+everything `.github/workflows/ci.yml` enforces:
 
 ```sh
-npm run lint
-npm test
-npm run smoke
+npm run audit:high
+npm run release:check
+bash scripts/validate.sh
 ```
 
-`npm run lint` is an alias for the repository static check so contributors can use the common npm workflow without guessing the project-specific command.
+`npm run release:check` runs `npm test && npm run check && npm run smoke && npm run package:smoke`, and both smoke scripts run `npm run build` first, so the build is covered as well. `npm run lint` is an alias for the repository static check so contributors can use the common npm workflow without guessing the project-specific command.
 
 ## Safety and privacy
 
@@ -114,22 +107,15 @@ If you find a vulnerability, follow [SECURITY.md](SECURITY.md).
 
 MIT
 
-## Development
-
-Run the same checks locally before opening a PR:
-
-- `npm run check` - tsc --noEmit
-- `npm run build` - next build
-- `npm test` - node --import tsx --test tests/**/*.test.ts
-- `npm run smoke` - npm run build && node scripts/smoke.mjs
-- `npm run package:smoke` - npm run build and verify the npm pack manifest includes the app, smoke scripts, and support docs
-- `npm run release:check` - npm test && npm run check && npm run smoke && npm run package:smoke
-
 ## Release Verification
 
-Before publishing or tagging a release, run the same verification path used by CI:
+Before publishing or tagging a release, reproduce the CI release-readiness job
+from a clean checkout, in the same order as `.github/workflows/ci.yml`:
 
-- `npm run release:check`
-- `npm run package:smoke`
+```sh
+npm ci
+npm run audit:high
+npm run release:check
+```
 
-See `docs/release-readiness.md` for the package surface, CLI bins, and reviewer checklist.
+See `docs/release-readiness.md` for the package surface, CLI bins, and reviewer checklist, and `docs/RELEASE_VERIFICATION.md` for the release checklist.
