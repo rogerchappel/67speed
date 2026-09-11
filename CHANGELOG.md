@@ -2,6 +2,11 @@
 
 ## Unreleased
 
+- Aligned contributor and release documentation with the real CI gates: the
+  `package:smoke` entry in `docs/release-readiness.md` now names
+  `scripts/package-smoke.mjs`, and the duplicated README verification lists are
+  consolidated into one accurate pre-PR list and one release-gate list that
+  mirror `.github/workflows/ci.yml`.
 - Fall back to the daily seed for invalid `/start/` seed query values so every
   browser run can complete normally.
 - Refreshed Next.js to 16.3.4, `@types/react` to 19.2.18, and `tsx` to
