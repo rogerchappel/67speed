@@ -18,7 +18,7 @@ Use this checklist before publishing, tagging, or asking reviewers to trust the 
 - `npm run test`: `node --import tsx --test tests/**/*.test.ts`
 - `npm run build`: `next build`
 - `npm run smoke`: `npm run build && node scripts/smoke.mjs`
-- `npm run package:smoke`: `npm run build && npm pack --dry-run`
+- `npm run package:smoke`: `npm run build && node scripts/package-smoke.mjs`
 - `npm run audit:high`: `npm audit --audit-level=high`
 - `npm run release:check`: `npm test && npm run check && npm run smoke && npm run package:smoke`
 
