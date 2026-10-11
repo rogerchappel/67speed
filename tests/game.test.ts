@@ -74,27 +74,19 @@ test('result ids round-trip URL-safe Unicode seeds', () => {
   assert.doesNotMatch(id, /[/?#%]/);
 });
 
-test('legacy and malformed result ids retain deterministic fallbacks', () => {
+test('legacy result ids preserve their encoded seed behavior', () => {
   assert.equal(resultFromId('certified-hallway-menace-83-7tcx3f').seed, '7tcx3f');
-  assert.equal(resultFromId('certified-hallway-menace-83~v2~%%%').seed, '67seed');
-  assert.deepEqual(
-    resultFromId('certified-hallway-menace-83~v2~%%%').prompts,
-    resultFromId('certified-hallway-menace-83~v2~%%%').prompts,
-  );
 });
 
-test('versioned result ids with an omitted seed payload use the stable fallback', () => {
-  const result = resultFromId('too-normal-20~v2~');
-  const fallback = resultFromId('too-normal-20~v2~%%%');
-
-  assert.equal(result.seed, '67seed');
-  assert.match(result.challengeUrl, /[?&]seed=67seed(?:&|$)/);
-  assert.deepEqual(result.prompts.map(({ id }) => id), fallback.prompts.map(({ id }) => id));
-});
-
-test('versioned result ids with empty or whitespace seeds use the stable fallback', () => {
-  assert.equal(resultFromId('too-normal-20~v2~IA').seed, '67seed');
-  assert.equal(resultFromId('too-normal-20~v2~CQ').seed, '67seed');
+test('malformed v2 ids reject invalid base64url and invalid UTF-8 payloads', () => {
+  for (const id of [
+    'certified-hallway-menace-83~v2~%%%',
+    'too-normal-20~v2~',
+    'too-normal-20~v2~IA',
+    'too-normal-20~v2~CQ',
+  ]) {
+    assert.throws(() => resultFromId(id), /Invalid v2 result ID/);
+  }
 });
 
 test('card renderer returns branded svg', () => {
